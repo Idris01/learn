@@ -12,22 +12,28 @@
         </p>
     </section>
     {% endif %}
-    <div class="container row ">
+    <div class="listing-grid">
       {% for listing in listings %}
-      <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 shadow rounded mt-3 bg-white ml-5 float-sm-left float-lg-left  m-a mb-5">
-        <a href="{% url 'listing_detail' listing.id %}">
-          <figure class="figure p-1">
-    	     <img src="{{listing.photo.url}}" class="figure-img img-fluid rounded " alt="image of {{listing.title}}">
-            <figcaption class="figure-caption">{{listing.title}}</figcaption>
-          </figure>
-        </a>
+      <div class="d-flex list-container ">
+        <div class="float-lg-left">
+          <a href="{% url 'listing_detail' listing.id %}">
+            <figure class="figure p-1">
+             <img src="{{listing.photo.url}}" class="figure-img img-fluid rounded " alt="image of {{listing.title}}">
+              <figcaption class="figure-caption text-uppercase text-black font-weight-bold">{{listing.title}}</figcaption>
+            </figure>
+          </a>
+        </div>
+        <div class="list-details border shadow pt-2">
+          <p class="text-left ml-2 text-warning font-weight-italic"><strong>Current Price :</strong></p>
+          <p class="text-left text-white ml-1"> <strong>$ {{listing.current_price}}</strong></p>
+          <p class="text-left ml-2 text-warning"><strong>Posted :</strong></p>
+          <p <span class="text-left text-white ml-1"> {{listing.post_time}}</span></p>
+          <p class="text-wrap ml-2 text-left text-warning" > <strong>Description:</strong></p>
+            <p class="overflow-auto text-wrap text-left text-white ml-1">{{listing.description}}</p>
+          <p class="text-left ml-2 text-warning"><strong>Posted by:</strong></p>
+          <p class="text-info text-left ml-1"><strong>{{listing.user}}</strong></p>
+        </div>
 
-        <p class="text-center"><strong>Current Price :</strong> <span class="btn btn-warning">$ {{listing.current_price}}</span></p>
-        <dt class="text-left ml-3"><strong>Posted :</strong></dt>
-        <dd> <span class="btn btn-secondary ml-2"> {{listing.post_time}}</span></dd>
-        <dt class="text-wrap ml-3 text-left" > <strong>Description:</strong></dt>
-        <dd class="overflow-auto text-wrap text-left text-info bg-dark ml-5">{{listing.description}}</dd>
-        <p class="text-left ml-3"><strong>Posted by: <span class="text-info">{{listing.user}}</span></strong></p>
       </div>
     {% empty %}
     <h4 class="text-center text-info"> No Active Listing</h4>
