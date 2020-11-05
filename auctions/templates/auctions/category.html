@@ -1,0 +1,23 @@
+{% extends "auctions/layout.html" %}
+{% block title %}Categories{% endblock %}
+{% block body %}
+    <h2 class="text-info">Categories</h2><hr>
+    {% if user.is_staff %}
+    <p>create<a href="{% url 'create_category' %}"> category</a></p>
+    {% endif %}
+    <div class="container row pl-5 pr-5">
+        {% for categ in categories %}
+    	    <div class="col-sm-4 col-md-4 col-lg-2 border bg-light shadow rounded pt-2 mt-2 ml-2 mr-2 mb-2 wrap float-left">
+    	    <a href="{% url 'named_category' categ.id %}">
+    		    <figure class="figure">
+    			    <img src="{{categ.photo.url}}" class="figure-img img-fluid rounded img-responsive" alt="image">
+    			    <figcaption class="figure-caption">{{categ.name}}</figcaption>
+    			  </figure>
+            </a>
+    	    </div>
+    	 {% empty %}
+    	 <h4 class="text-center"> No registered category</h4>
+        {% endfor %}
+      </div>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "auctions/layout.html" %}
+{% block title %} Active Listing{% endblock %}
+{% block body %}
+    <h2 class="text-info">Active Listings</h2><hr>
+    {% if won %}
+    <section class=" text-center ml-5 mr-5 mt-0 mb-0 bg-white pl-5 pr-5 pb-1 rounded">
+      <h5 class=" text-success ">Congratulations!!! You have won !!!</h5>
+      <p class="text-success text-wrap text-center ">
+        {% for win in won %}
+        <a href="{{win.listing.get_absolute_url}}" class="text-white  ml-2 btn btn-success">{{win.listing|title}}</a>
+        {% endfor %}
+        </p>
+    </section>
+    {% endif %}
+    <div class="container row ">
+      {% for listing in listings %}
+      <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 shadow rounded mt-3 bg-white ml-5 float-sm-left float-lg-left  m-a mb-5">
+        <a href="{% url 'listing_detail' listing.id %}">
+          <figure class="figure p-1">
+    	     <img src="{{listing.photo.url}}" class="figure-img img-fluid rounded " alt="image of {{listing.title}}">
+            <figcaption class="figure-caption">{{listing.title}}</figcaption>
+          </figure>
+        </a>
+
+        <p class="text-center"><strong>Current Price :</strong> <span class="btn btn-warning">$ {{listing.current_price}}</span></p>
+        <dt class="text-left ml-3"><strong>Posted :</strong></dt>
+        <dd> <span class="btn btn-secondary ml-2"> {{listing.post_time}}</span></dd>
+        <dt class="text-wrap ml-3 text-left" > <strong>Description:</strong></dt>
+        <dd class="overflow-auto text-wrap text-left text-info bg-dark ml-5">{{listing.description}}</dd>
+        <p class="text-left ml-3"><strong>Posted by: <span class="text-info">{{listing.user}}</span></strong></p>
+      </div>
+    {% empty %}
+    <h4 class="text-center text-info"> No Active Listing</h4>
+    {% endfor %}
+    </div>
+{% endblock %}

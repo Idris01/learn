@@ -1,0 +1,98 @@
+{% extends "auctions/layout.html" %}
+{% block title %}Categories{% endblock %}
+{% block body %}
+
+    <h2>{{listing.title}}</h2>
+    {% if winner and winner.user == user and not winner.listing.open %}
+	    <h3 class="text-success text-center wrap border btn">Congratulations You have won the Bid</h3>
+    {% endif %}
+
+    <div class="container">
+    <div class="row ">
+	    <div class="m-auto shadow border mb-5 bg-white mt-3">
+  	    <p class="justify mb-0 ">
+  	    {% if user.is_authenticated %}
+  	    <form class="float-left bg-light" method="post" action="{% url 'watchlist' %}">
+  		    {% csrf_token %}
+  		    <input type="hidden" name="pk" value="{{listing.id}}">
+  	    {% if watchlisted %}
+  		    <input type="hidden" name="status" value="rm">
+  		    <input type="submit" class="btn btn-sm btn-secondary" value="Remove Watchlist">
+  	    {% else %}
+  	      {% if listing.open %}
+  		    <input type="hidden" name="status" value="ad">
+  		    <input type="submit" class="btn btn-sm btn-success" value="Add Watchlist">
+  		   {% endif %}
+  	   {% endif %}
+  	    </form>
+  	    {% endif %}
+  	     {% if user.is_authenticated %}
+  	   <!-- if this user created the listing-->
+  	   <form action="{% url 'watchlist' %}" method="post">
+  		    {% csrf_token %}
+  		    <input type="hidden" name="pk" value="{{listing.id}}" >
+  		   <input type="hidden" name="status" value="bd">
+  		  {% if user == listing.user %}
+  			  {% if listing.open %}
+  			   <input class="btn btn-sm bg-danger text-white" type="submit" value="Close" >
+  			   {% else %}
+  			   <span class="btn btn-sm bg-secondary text-white ">Closed</span>
+  			   {% endif %}
+  		{% endif %}
+  	    </form>
+  	    {% endif %}
+        </p>
+
+
+		    <figure class="figure">
+			    <img src="{{listing.photo.url}}" class="figure-img img-fluid rounded" alt="image">
+			    <figcaption class="figure-caption">{{listing.description}}</figcaption>
+			    </figure>
+			    <p class="text-center"><span class="btn btn-secondary"><strong>$ {{listing.current_price}}</strong></span></p>
+
+	    <hr/>
+	    {% if user.is_authenticated and listing.open %}
+		    <p class="text-muted mb-0" >{{listing.bids.count}} {% if listing.bids.count < 2 %} bid {% else %} bids {% endif %} so far</p>
+
+			<form action="{% url 'bid' listing.id %}" method="post">
+				{% csrf_token %}
+				<p>
+				<input type="hidden" name="pk" value="{{listing.id}}" >
+				{{form.price}}
+				<input class="btn btn-md btn-primary" type="submit" value="Place Bid">
+				</p>
+			</form>
+			{% endif %}
+			</div>
+			</div>
+			<div class="overflow-auto border bg-secondary rounded message mb-4">
+			<h4 class="sticky text-center mt-2"><span class="btn btn-outline-info">Comments</span></h4><hr>
+				{% for comment in comments %}
+				<section class="">
+					<p class="inline text-left"><span class="btn btn-dark">{{comment.user}}</span></p>
+					<p class="text-left text-muted bg-light rounded">{{comment.message}}</p>
+				</section>
+				{% empty %}
+
+				{% endfor %}
+
+			{% if user.is_authenticated %}
+
+        <form action="{% url 'comment' listing.id %}" method="post">
+  				{% csrf_token %}
+  				<div class="form-group mb-4">
+  					<input type="hidden" name="pk" value="{{listing.id}}" >
+  					<div class="rounded">{{comment_form.message}}</div>
+  					<input class="btn btn-md btn-primary" type="submit" value="Post Comment">
+  				</div>
+  			</form>
+
+
+			</div>
+
+
+
+		{% endif %}
+
+    </div>
+{% endblock %}

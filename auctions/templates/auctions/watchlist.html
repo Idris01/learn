@@ -1,0 +1,30 @@
+{% extends "auctions/layout.html" %}
+{% block title %}watchlist{% endblock %}
+{% block watch %}{{count}}{% endblock %}
+
+{% block body %}
+    <h2 class="text-info">My Watchlist</h2><hr>
+    <div class="container row">
+    {% for listing in listings %}
+    <div class="col-sm-12 col-md-6 col-lg-3">
+    <a href="{% url 'listing_detail' listing.item.id %}"><figure class="figure">
+    {% if listing.item.photo %}
+	    <img src="{{listing.item.photo.url}}" class="figure-img img-fluid rounded" alt="image of {{listing.title}}">
+	{% else %}
+		<img src="{{listing.item.category.photo.url}}" class="figure-img img-fluid rounded" alt="image">
+	{% endif %}
+    <figcaption class="figure-caption">{{listing.item.title}}</figcaption>
+    </figure>
+    </a>
+    <p class="text-center"><strong>Active Since:</strong> <span class="btn btn-secondary"> {{listing.item.post_time}}</span></p>
+
+    <p class="text-center"><strong>Current Price :</strong> <span class="btn btn-secondary">$ {{listing.item.current_price}}</span></p>
+   <p class="text-wrap bg-light" > <strong>Description:</strong>{{listing.item.description}}</p>
+    </div>
+    {% empty %}
+    <h4 class="text-center text-info m-auto"> Your watchlist is empty</h4>
+
+    {% endfor %}
+    </div>
+
+{% endblock %}

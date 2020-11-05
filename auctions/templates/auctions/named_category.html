@@ -1,0 +1,29 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}{{category}}{% endblock %}
+{% block body %}
+    <h2 class="text-info">{{category}}</h2><hr>
+    <div class="container row">
+    {% for listing in listings %}
+    <div class="col-sm-12 col-md-6 col-lg-3 mt-2">
+    <a href="{% url 'listing_detail' listing.id %}"><figure class="figure">
+    {% if listing.photo %} 
+	    <img src="{{listing.photo.url}}" class="figure-img img-fluid rounded" alt="image of {{listing.title}}">
+	{% else %}
+		<img src="{{listing.category.photo.url}}" class="figure-img img-fluid rounded" alt="image">
+	{% endif %}
+    <figcaption class="figure-caption">{{listing.title}}</figcaption>
+    </figure>
+    </a>
+    <p class="text-left"><strong>Active Since:</strong> <span class="btn btn-secondary"> {{listing.post_time}}</span></p>
+    
+    <p class="text-left"><strong>Current Price :</strong> <span class="btn btn-secondary">$ {{listing.starting_bid}}</span></p>
+   <p class="text-wrap bg-light" > <strong>Description:</strong>{{listing.description}}</p>
+    </div>
+    {% empty %}
+    <h4 class="text-center text-dark justify"> No Active Listing for this category</h4>
+    
+    {% endfor %}
+    </div>
+    
+{% endblock %}

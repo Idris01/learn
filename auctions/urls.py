@@ -1,0 +1,25 @@
+from django.urls import path,re_path
+from django.conf import settings
+from django.conf.urls.static import static
+
+from . import views
+
+urlpatterns = [
+    path("", views.index, name="index"),
+    path("login", views.login_view, name="login"),
+    path("logout", views.logout_view, name="logout"),
+    path("register", views.register, name="register"),
+    path("create_listing", views.create_listing, name="create_listing"),
+    path("create_category", views.create_category, name="create_category"),
+    path("category", views.category_view, name="category"),
+    path("watchlist", views.watchlist, name="watchlist"),
+    re_path(r"^listing/(?P<pk>\d+)$", views.ListingDetail.as_view(), name="listing_detail"),
+    re_path(r"^category/(?P<pk>\d+)$", views.named_category, name="named_category"),
+    re_path(r"^bid/(?P<pk>\d+)$", views.bid, name="bid"),
+    re_path(r"^comment/(?P<pk>\d+)$", views.comment, name="comment"),
+
+
+
+]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

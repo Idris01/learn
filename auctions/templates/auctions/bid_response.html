@@ -1,0 +1,23 @@
+{% extends "auctions/layout.html" %}
+{% block title %}bid response{% endblock %}
+{% block body %}
+
+    
+    <div class="container">
+		<div class="jumbotron mt-5">
+		{% if success %}
+		<h4 class="lead text-success justify">{{message}}</h4>
+		{% else %}
+		<h4 class="lead text-danger justify">{{message}}</h4>
+		{% endif %}
+		
+		<form method="post" action="">
+		{% csrf_token %}
+		<input type="hidden" name="pk" value="{{pk}}">
+		<input type="hidden" name="gt" value="get">
+		<input class="btn btn-primary" type="submit" value="OK">
+		
+		</form>
+		</div>
+    </div>
+{% endblock %}
